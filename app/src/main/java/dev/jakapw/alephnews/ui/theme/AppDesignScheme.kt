@@ -7,28 +7,32 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 
-data class AppColorScheme (
+data class AppColorScheme(
     val background: Color,
+    val surface: Color,
     val primary: Color,
     val primaryContainer: Color,
     val onPrimaryContainer: Color,
     val neutral: Color,
-    val semantic: Color
-)
+    val semantic: Color,
+    val onSurface: Color,
+    )
 
-data class AppTypography (
+data class AppTypography(
     val titleLarge: TextStyle,
     val titleMedium: TextStyle,
     val titleSmall: TextStyle,
     val body: TextStyle,
     val labelMedium: TextStyle,
-    val labelSmall: TextStyle
+    val labelSmall: TextStyle,
+    val inputText: TextStyle
 )
 
-data class AppShape (
+data class AppShape(
     val banner: Shape,
     val card: Shape,
-    val textField: Shape
+    val textField: Shape,
+    val button: Shape
 )
 
 data class AppSize (
@@ -40,11 +44,13 @@ data class AppSize (
 val LocalAppColorScheme = staticCompositionLocalOf {
     AppColorScheme(
         background = Color.Unspecified,
+        surface = Color.Unspecified,
         primary = Color.Unspecified,
         primaryContainer = Color.Unspecified,
         onPrimaryContainer = Color.Unspecified,
         neutral = Color.Unspecified,
-        semantic = Color.Unspecified
+        semantic = Color.Unspecified,
+        onSurface = Color.Unspecified
     )
 }
 
@@ -55,7 +61,8 @@ val LocalAppTypography = staticCompositionLocalOf {
         titleSmall = TextStyle.Default,
         body = TextStyle.Default,
         labelMedium = TextStyle.Default,
-        labelSmall = TextStyle.Default
+        labelSmall = TextStyle.Default,
+        inputText = TextStyle.Default
     )
 }
 
@@ -63,7 +70,8 @@ val LocalAppShape = staticCompositionLocalOf {
     AppShape(
         banner = RectangleShape,
         card = RectangleShape,
-        textField = RectangleShape
+        textField = RectangleShape,
+        button = RectangleShape
     )
 }
 

@@ -7,5 +7,6 @@ import dev.jakapw.alephnews.R
 
 val RobotoSlab = FontFamily(
     Font(R.font.roboto_slab_light, FontWeight.Light),
-    Font(R.font.roboto_slab, FontWeight.Normal)
+    Font(R.font.roboto_slab, FontWeight.Normal),
+    Font(R.font.roboto_slab_bold, FontWeight.Bold)
 )
