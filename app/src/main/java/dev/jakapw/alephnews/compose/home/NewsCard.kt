@@ -37,10 +37,10 @@ import dev.jakapw.alephnews.ui.theme.AppTheme
 
 @Composable
 fun NewsCard(
-    imgUrl: String,
-    newsTitle: String,
-    newsPublisher: String,
-    newsDate: String,
+    imgUrl: String = "",
+    newsTitle: String = "",
+    newsPublisher: String = "",
+    newsDate: String = "",
     modifier: Modifier = Modifier
 ) {
     var isSaved by remember {

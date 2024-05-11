@@ -8,11 +8,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
@@ -20,14 +22,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.jakapw.alephnews.compose.common.AppBar
+import dev.jakapw.alephnews.data.model.Article
+import dev.jakapw.alephnews.data.viewmodel.HomeViewModel
 import dev.jakapw.alephnews.ui.theme.AppTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
+    viewModel: HomeViewModel,
     modifier: Modifier = Modifier
 ) {
-    val context = LocalContext.current
+    val topHeadlines by viewModel.topHeadlines.collectAsState()
+    val newsList = emptyList<Article>()
 
     Scaffold(
         topBar = { AppBar() },
@@ -49,11 +54,10 @@ fun HomeScreen(
                 )
             }
             item(span = StaggeredGridItemSpan.FullLine) {
+                val article = topHeadlines.getOrNull(0)
                 Banner(
-                    imgUrl = "https://www.aoc.gov/sites/default/files/styles/social_standard/public/2020-06/U.S._Capitol_Building_%402x.jpg.webp?itok=MIiyTtN1",
-                    title = "Stock Prices Surge \n" +
-                            "Amids The Fed Aggressive Action\n" +
-                            "in Fighting Inflation ",
+                    imgUrl = article?.urlToImage ?: "",
+                    title = article?.title ?: "",
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(150.dp)
@@ -65,6 +69,7 @@ fun HomeScreen(
             }
             item(span = StaggeredGridItemSpan.FullLine) {
                 TopHeadline(
+                    topHeadlines,
                     modifier = Modifier
                         .fillMaxWidth()
                         .fillMaxHeight()
@@ -78,26 +83,22 @@ fun HomeScreen(
                     text = "News This Week",
                     style = AppTheme.typography.titleLarge,
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(AppTheme.size.paddingSmall).fillMaxWidth()
+                    modifier = Modifier
+                        .padding(AppTheme.size.paddingSmall)
+                        .fillMaxWidth()
                 )
             }
-            items(4) {
-                NewsCard(
-                    imgUrl = "https://sellerplex.com/wp-content/uploads/Amazon-Marketplace.jpg",
-                    newsTitle = "Amazon to launch dedicated website for Ireland next year",
-                    newsPublisher = "BBC",
-                    newsDate = "10/5/2024",
-                    modifier = Modifier.padding(AppTheme.size.paddingSmall)
-                )
+            if (newsList.isNotEmpty()) {
+                items(newsList) { news ->
+                    NewsCard(
+                        imgUrl = news.urlToImage,
+                        newsTitle = news.title,
+                        newsPublisher = news.source.name,
+                        newsDate = news.publishedAt,
+                        modifier = Modifier.padding(AppTheme.size.paddingSmall)
+                    )
+                }
             }
         }
-    }
-}
-
-@Preview
-@Composable
-fun HomeScreenPreview() {
-    AppTheme {
-        HomeScreen()
     }
 }

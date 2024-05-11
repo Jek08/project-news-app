@@ -17,8 +17,8 @@ import dev.jakapw.alephnews.ui.theme.AppTheme
 
 @Composable
 fun Banner(
-    imgUrl: String,
-    title: String,
+    imgUrl: String = "",
+    title: String = "",
     modifier: Modifier = Modifier
 ) {
     Box(modifier) {
