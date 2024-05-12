@@ -12,30 +12,39 @@ import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import dev.jakapw.alephnews.compose.common.AppBar
-import dev.jakapw.alephnews.data.model.Article
+import dev.jakapw.alephnews.compose.common.CustomAppBar
+import dev.jakapw.alephnews.data.model.HotTopics
 import dev.jakapw.alephnews.data.viewmodel.HomeViewModel
 import dev.jakapw.alephnews.ui.theme.AppTheme
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel,
     modifier: Modifier = Modifier
 ) {
+    val viewModel: HomeViewModel = HomeViewModel.instance
     val topHeadlines by viewModel.topHeadlines.collectAsState()
-    val newsList = emptyList<Article>()
+    val newsList by viewModel.newsList.collectAsState()
+
+    var hotTopic by remember {
+        mutableStateOf(HotTopics.topics[0])
+    }
+
+    viewModel.updateTopHeadlines()
+    viewModel.updateNewsList(hotTopic, 4)
 
     Scaffold(
-        topBar = { AppBar() },
+        topBar = { CustomAppBar() },
         modifier = modifier.padding(horizontal = AppTheme.size.paddingLarge)
     ) { innerPadding ->
         LazyVerticalStaggeredGrid(
@@ -44,7 +53,10 @@ fun HomeScreen(
                 .padding(innerPadding)
         ) {
             item(span = StaggeredGridItemSpan.FullLine) {
-                SearchNews()
+                SearchNews(
+                    onButtonClick = { hotTopic = it },
+                    currentTopic = hotTopic
+                )
             }
             item(span = StaggeredGridItemSpan.FullLine) {
                 Divider(
@@ -68,6 +80,13 @@ fun HomeScreen(
                 Spacer(modifier = Modifier.height(20.dp))
             }
             item(span = StaggeredGridItemSpan.FullLine) {
+                Text(
+                    text = "Top Headlines",
+                    style = AppTheme.typography.titleLarge,
+                    modifier = Modifier.padding(AppTheme.size.paddingSmall)
+                )
+            }
+            item(span = StaggeredGridItemSpan.FullLine) {
                 TopHeadline(
                     topHeadlines,
                     modifier = Modifier
@@ -80,7 +99,7 @@ fun HomeScreen(
             }
             item(span = StaggeredGridItemSpan.FullLine) {
                 Text(
-                    text = "News This Week",
+                    text = "News This Month",
                     style = AppTheme.typography.titleLarge,
                     textAlign = TextAlign.Center,
                     modifier = Modifier

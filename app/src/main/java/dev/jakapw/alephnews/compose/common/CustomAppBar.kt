@@ -14,7 +14,7 @@ import dev.jakapw.alephnews.ui.theme.AppTheme
 import dev.jakapw.alephnews.ui.theme.LocalAppSize
 
 @Composable
-fun AppBar(
+fun CustomAppBar(
     modifier: Modifier = Modifier
 ) {
     val logoSmall = ImageVector.vectorResource(id = R.drawable.aleph_logo_small)
@@ -32,6 +32,6 @@ fun AppBar(
 @Composable
 fun TopBarPreview() {
     AppTheme {
-        AppBar()
+        CustomAppBar()
     }
 }

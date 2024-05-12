@@ -2,7 +2,6 @@ package dev.jakapw.alephnews.compose.home
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
@@ -19,10 +18,6 @@ fun TopHeadline(
     Column(
         modifier = modifier
     ) {
-        Text(
-            text = "Top Headlines",
-            style = AppTheme.typography.titleLarge
-        )
         LazyRow(
             modifier = Modifier
                 .padding(top = AppTheme.size.paddingSmall)
