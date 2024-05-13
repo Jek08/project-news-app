@@ -34,7 +34,7 @@ class HomeViewModel : ViewModel() {
     val newsList: StateFlow<List<Article>> = _newsList.asStateFlow()
 
     fun updateTopHeadlines() {
-        newsApi.getTopHeadlines(apiKey = APIKEY)
+        newsApi.getTopHeadlines(apiKey = APIKEY, pageSize = 15)
             .enqueue(object : Callback<NewsArticles> {
                 override fun onResponse(p0: Call<NewsArticles>, p1: Response<NewsArticles>) {
                     _topHeadlines.value = p1.body()?.articles.orEmpty()
@@ -57,7 +57,8 @@ class HomeViewModel : ViewModel() {
             apiKey = APIKEY,
             searchQuery = searchQuery,
             from = fromDate.toString(),
-            to = toDate.toString()
+            to = toDate.toString(),
+            pageSize = 40
         ).enqueue(object: Callback<NewsArticles> {
             override fun onResponse(p0: Call<NewsArticles>, p1: Response<NewsArticles>) {
                 val result = p1.body()?.articles.orEmpty()

@@ -15,13 +15,13 @@ interface NewsApi {
         @Query(value = "country") country: String = "us",
         @Query(value = "category") category: String = "business",
         @Query(value = "apiKey") apiKey: String,
-        @Query(value = "pageSize") pageSize: Int = 10
+        @Query(value = "pageSize") pageSize: Int
     ) : Call<NewsArticles>
 
     @GET("everything")
     abstract fun getNewsByCategory(
         @Query(value = "apiKey") apiKey: String,
-        @Query(value = "pageSize") pageSize: Int = 15,
+        @Query(value = "pageSize") pageSize: Int,
         @Query(value = "q") searchQuery: String = "",
         @Query(value = "searchIn") searchIn: String = "title",
         @Query(value = "from") from: String,

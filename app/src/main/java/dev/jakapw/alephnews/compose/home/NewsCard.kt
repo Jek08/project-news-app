@@ -116,7 +116,7 @@ fun NewsCard(
             )
             Spacer(modifier = Modifier.padding(horizontal = 5.dp))
             Text(
-                text = newsDate,
+                text = newsDate.substringBefore('T'),
                 style = AppTheme.typography.labelSmall,
                 color = AppTheme.colorScheme.neutral)
         }
